@@ -1,0 +1,5 @@
+# Development and testing requirements
+pytest>=7.4.0
+pytest-cov>=4.1.0
+pytest-mock>=3.11.1
+numpy>=1.24.0,<2.0.0

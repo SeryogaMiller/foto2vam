@@ -24,7 +24,7 @@ class Config:
     def _parseParams(self, params, angles):
         """Parse parameters and collect angles."""
         parsed_params = []
-        for param in params:
+        for idx, param in enumerate(params):
             try:
                 paramName = param["name"]
                 paramList = []
@@ -33,8 +33,12 @@ class Config:
                     if paramParam["name"] == "angle":
                         angles.add(float(paramParam["value"]))
                 parsed_params.append({"name": paramName, "params": paramList})
+            except KeyError as e:
+                print(f"Warning: Parameter at index {idx} is missing required key {e}. Skipping this parameter.")
+            except ValueError as e:
+                print(f"Warning: Invalid value in parameter at index {idx}: {e}. Skipping this parameter.")
             except Exception as e:
-                print(f"Error parsing parameter: {e}")
+                print(f"Warning: Unexpected error parsing parameter at index {idx}: {type(e).__name__}: {e}. Skipping this parameter.")
         return parsed_params
 
     @staticmethod
