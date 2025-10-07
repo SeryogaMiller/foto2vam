@@ -1,7 +1,7 @@
 # Foto2VAM Dockerfile
 # Multi-stage build for optimized image size
 
-FROM python:3.10-slim as builder
+FROM python:3.10-slim AS builder
 
 # Install build dependencies
 RUN apt-get update && apt-get install -y \
@@ -34,7 +34,7 @@ RUN apt-get update && apt-get install -y \
     libsm6 \
     libxext6 \
     libxrender-dev \
-    libgl1-mesa-glx \
+    libgl1 \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy Python packages from builder

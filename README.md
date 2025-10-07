@@ -14,6 +14,10 @@ Foto2VAM is a Python-based tool that uses facial recognition and machine learnin
 - Support for multiple camera angles
 - JSON-based configuration system
 
+## Quick Start
+
+**New to Foto2VAM?** Check out the [Quick Start Guide](QUICKSTART.md) for step-by-step instructions!
+
 ## Requirements
 
 - Python 3.10 or newer
@@ -51,6 +55,8 @@ docker build -t foto2vam .
 ```bash
 docker run -v $(pwd)/Input:/app/Input -v $(pwd)/Output:/app/Output foto2vam
 ```
+
+**Note:** If you encounter SSL certificate errors during Docker build in corporate/restricted network environments, you may need to configure your Docker daemon to use your organization's certificate authorities or use the standard Python installation method instead.
 
 ## Usage
 
