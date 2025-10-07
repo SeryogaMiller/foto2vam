@@ -2,7 +2,7 @@
 
 try:
     import face_recognition_hst as face_recognition
-except:
+except ImportError:
     import face_recognition
 import numpy
 from PIL import Image, ImageDraw
@@ -45,7 +45,7 @@ class EncodedFace:
         try:
             self._encodings = face_recognition.face_encodings(self._img, num_jitters=num_jitters)[0]
             self._landmarks = face_recognition.face_landmarks(self._img)[0]
-        except:
+        except Exception:
             raise Exception("Failed to find face in image")
         (_, self._angle, _) = self._estimatePose(debugPose = debugPose)
 
@@ -91,10 +91,10 @@ class EncodedFace:
 
     @staticmethod
     def createFromFile( fileName ):
-        data = open(fileName).read()
-        jsonData = json.loads(data)
+        with open(fileName, 'r') as f:
+            jsonData = json.load(f)
 
-        if jsonData["encoding_version"] is not EncodedFace.ENCODING_VERSION:
+        if jsonData["encoding_version"] != EncodedFace.ENCODING_VERSION:
             raise Exception("Encoding version mismatch! File was {}, reader was {}".format(jsonData["encoding_version"], EncodedFace.ENCODING_VERSION ) )
 
         newEncoding = EncodedFace( None )

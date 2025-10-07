@@ -21,7 +21,7 @@ def main( args ):
     inputPath = args.inputPath
     outputName = args.outputName
     numThreads = args.numThreads
-    overwrite = args.overwrite;
+    overwrite = args.overwrite
     config = Config.createFromFile( args.configFile )
 
 
@@ -78,9 +78,7 @@ def worker_process_func(procId, workQueue, doneEvent, config, args):
                         basename = os.path.splitext(file)[0]
                         # Check if we have all support encodings for this json
                         relatedFilesGlob = "{}*".format(basename)
-                        relatedFiles = []
-                        for rfile in glob.glob( relatedFilesGlob ):
-                            relatedFiles.append( rfile )
+                        relatedFiles = glob.glob(relatedFilesGlob)
 
                         # Have all files? Convert them to CSV
                         outRow = config.generateParams( relatedFiles )
@@ -96,7 +94,9 @@ def worker_process_func(procId, workQueue, doneEvent, config, args):
                     except Exception as e:
                         pass
                         #print( "Failed to generate CSV from {} - {}".format( file, str(e)))
-                print( "Worker {} done with {} ({} entries took {} seconds, at {} entries/second)".format(procId, outCsvFile, numCreated, time.time() - start, numCreated/( time.time() - start ) ) )
+                elapsed = time.time() - start
+                rate = numCreated / elapsed if elapsed > 0 else 0
+                print( "Worker {} done with {} ({} entries took {:.2f} seconds, at {:.2f} entries/second)".format(procId, outCsvFile, numCreated, elapsed, rate) )
 
             except Exception as e:
                 print("Worker {} failed generating {} : {}".format(procId, outCsvFile, str(e)))

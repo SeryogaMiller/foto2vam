@@ -105,7 +105,8 @@ def worker_process_func(procId, workQueue, doneEvent, args):
                 print("Worker {} generated {} {}".format(procId, outputFile, mirrored ) )
             except Exception as e:
                 print("Worker {} failed to generate {} : {}".format(procId, outputFile, str(e)))
-                open( "{}.failed".format(outputFile), 'w' )
+                with open("{}.failed".format(outputFile), 'w') as f:
+                    pass
         except queue.Empty:
             pass
     print("Worker {} done!".format(procId))

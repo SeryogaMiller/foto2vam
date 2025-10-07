@@ -32,25 +32,24 @@ def main( args ):
             morphCnt = len(newFace.morphFloats)
             newFace.matchMorphs(baseFace)
             inputFaces.append(newFace)
-        except:
-            print("Error loading {}".format(entry))
+        except Exception as e:
+            print("Error loading {}: {}".format(entry, e))
 
     print( "Loaded {} faces".format(len(inputFaces)))
     if len(inputFaces) == 0:
         print("No starting point faces were loaded!")
         exit(-1)
-    faceCnt = 0;
+    faceCnt = 0
     print( "Generating variations")
 
     maxVariantsSize = 10000
     mutateChance = .6
     mateChance = .7
-    faceVariants = [] + inputFaces
+    faceVariants = list(inputFaces)
     nextRotation = faceCnt + dirRotateInterval
     rotatedOutputPath = getNextDir( outputPath )
     while faceCnt < args.numFaces:
-        #for face1 in faceVariants:
-        face1 = faceVariants[random.randint(0,len(faceVariants)-1)]
+        face1 = random.choice(faceVariants)
 
         # Randomly take parameters from the other face
         shouldMate = random.random() < mateChance
@@ -65,7 +64,7 @@ def main( args ):
 
             # Randomly apply mutations to the current face
             if shouldMutate:
-                mutate(newFace, random.randint(0,random.randint(1,50)) )
+                mutate(newFace, random.randint(1,50))
 
             newFace.save( os.path.join(rotatedOutputPath, "face_variant_{}_{}.json".format(faceCnt, random.randint(0,99999))))
             # If at max size, replace a random element. Otherwise append
