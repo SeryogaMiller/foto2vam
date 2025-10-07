@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  foto2vam:
+    build: .
+    image: foto2vam:latest
+    container_name: foto2vam
+    volumes:
+      # Mount input directory
+      - ./Input:/app/Input
+      # Mount output directories
+      - ./Output:/app/Output
+      - ./Output_Merged:/app/Output_Merged
+      # Mount models directory (optional)
+      - ./models:/app/models
+    environment:
+      - PYTHONUNBUFFERED=1
+    # Override default command if needed
+    # command: python foto2vam.py --inputPath Input --outputPath Output
+    
+  # Optional: Training container with GPU support
+  foto2vam-train:
+    build:
+      context: .
+      dockerfile: Dockerfile.train
+    image: foto2vam-train:latest
+    container_name: foto2vam-train
+    volumes:
+      - ./Input:/app/Input
+      - ./Output:/app/Output
+      - ./models:/app/models
+      - ./training_data:/app/training_data
+    environment:
+      - PYTHONUNBUFFERED=1
+    # Uncomment for GPU support (requires nvidia-docker)
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+    profiles:
+      - training

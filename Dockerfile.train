@@ -1,0 +1,39 @@
+# Dockerfile for training with GPU support
+# Based on NVIDIA CUDA image for TensorFlow
+
+FROM tensorflow/tensorflow:2.13.0-gpu
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    cmake \
+    libopenblas-dev \
+    liblapack-dev \
+    libx11-dev \
+    libgtk-3-dev \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set working directory
+WORKDIR /app
+
+# Copy requirements
+COPY requirements-train.txt .
+
+# Install Python dependencies
+# Note: tensorflow is already installed in base image
+RUN pip install --no-cache-dir -r requirements-train.txt || \
+    pip install --no-cache-dir $(grep -v "^tensorflow" requirements-train.txt)
+
+# Copy application code
+COPY . .
+
+# Create necessary directories
+RUN mkdir -p Input Output Output_Merged models training_data
+
+# Set environment variables
+ENV PYTHONUNBUFFERED=1
+ENV TF_FORCE_GPU_ALLOW_GROWTH=true
+
+# Default command
+CMD ["python", "foto2vam.py"]

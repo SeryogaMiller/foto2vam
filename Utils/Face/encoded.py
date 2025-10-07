@@ -132,8 +132,8 @@ class EncodedFace:
                                 ])
 
         # Camera internals
-        focal_length = img_size[1]
-        center = (img_size[1] / 2, img_size[0] / 2)
+        focal_length = float(img_size[1])
+        center = (float(img_size[1]) / 2, float(img_size[0]) / 2)
         camera_matrix = numpy.array(
                                  [[focal_length, 0, center[0]],
                                  [0, focal_length, center[1]],
