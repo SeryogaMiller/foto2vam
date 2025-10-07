@@ -38,12 +38,12 @@ class ParamGenerator:
                 else:
                     newFace = EncodedFace.createFromFile(file)
                 self._encodings.append(newFace)
-            except:
+            except Exception:
                 try:
                     vamFace = VamFace(file)
                     vamFace.matchMorphs( baseFace )
                     self._vamFaces.append( vamFace )
-                except:
+                except Exception:
                     continue
 
         # Now put the encodings into the bucket with the closest angle
@@ -127,29 +127,29 @@ class ParamGenerator:
     def _vmAdd( workarea, param1, param2 ):
         l = ParamGenerator._vmResolveVariable( workarea, param1 )
         r = ParamGenerator._vmResolveVariable( workarea, param2 )
-        return l+r;
+        return l + r
 
     @staticmethod
     def _vmSub( workarea, param1, param2 ):
         l = ParamGenerator._vmResolveVariable( workarea, param1 )
         r = ParamGenerator._vmResolveVariable( workarea, param2 )
-        return l-r;
+        return l - r
 
     @staticmethod
     def _vmDiv( workarea, param1, param2 ):
         l = ParamGenerator._vmResolveVariable( workarea, param1 )
         r = ParamGenerator._vmResolveVariable( workarea, param2 )
-        return l/r
+        return l / r
 
     @staticmethod
     def _vmMult( workarea, param1, param2 ):
         l = ParamGenerator._vmResolveVariable( workarea, param1 )
         r = ParamGenerator._vmResolveVariable( workarea, param2 )
-        return l*r;
+        return l * r
 
     @staticmethod
     def _vmSet( workarea, param1, param2 ):
-        return 0;
+        return 0
 
     @staticmethod
     def _vmResolveVariable( workarea, varName ):

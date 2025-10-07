@@ -33,10 +33,7 @@ def main( args ):
                 outName = "{}_mergedWith_{}.json".format( os.path.splitext(file)[0], os.path.splitext(os.path.basename(args.fromJson))[0])
                 toFace = VamFace( os.path.join(root, file), discardExtra = False )
                 newFace = VamFace.mergeFaces( templateFace=templateFace, toFace=toFace, fromFace=fromFace, invertTemplate = invertTemplate, copyNonMorphs = True)
-                try:
-                    os.makedirs(outDir)
-                except:
-                    pass
+                os.makedirs(outDir, exist_ok=True)
                 outputName = os.path.join(outDir, outName )
                 newFace.save( outputName )
                 print( "Generated {}".format(outputName ) )

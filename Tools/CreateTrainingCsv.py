@@ -21,7 +21,7 @@ def main( args ):
     inputPath = args.inputPath
     outputName = args.outputName
     numThreads = args.numThreads
-    overwrite = args.overwrite;
+    overwrite = args.overwrite
     config = Config.createFromFile( args.configFile )
 
 

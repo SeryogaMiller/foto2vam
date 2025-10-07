@@ -3,9 +3,9 @@
 import win32gui
 import win32con
 import pyautogui
-import win32pipe;
-import win32file;
-import pywintypes;
+import win32pipe
+import win32file
+import pywintypes
 import os
 import time
 import json
@@ -37,7 +37,7 @@ class VamWindow:
                         None
                         )
             except pywintypes.error as e:
-                print( str(e) );
+                print(str(e))
 
         self._getVamHndl()
 
@@ -141,8 +141,8 @@ class VamWindow:
             raise Exception("Todo: Reimplement window clicking. Specify a pipe for control")
 
     def loadLookPipe(self, jsonPath, pipe, angles ):
-        msg = {};
-        msg["cmd"] = "screenshot";
+        msg = {}
+        msg["cmd"] = "screenshot"
         msg["angles"] = angles
         msg["json"] = jsonPath
         msg["outputPath"] = jsonPath
@@ -154,9 +154,9 @@ class VamWindow:
         return
         print("Sync pipe!")
         syncId = random.randint(0,1000)
-        msg = {};
-        msg["cmd"] = "echo";
-        msg["id"] = syncId;
+        msg = {}
+        msg["cmd"] = "echo"
+        msg["id"] = syncId
         self._writeToPipe( pipe, json.dumps(msg))
         data = self._readFromPipe( pipe )
         print("Response: {}".format(data))

@@ -206,8 +206,8 @@ class VamFace:
 
     # Load a JSON file
     def load(self, filename, discardExtra = True ):
-            data = open(filename).read()
-            self.jsonData = json.loads(data)
+            with open(filename, 'r') as f:
+                self.jsonData = json.load(f)
             atoms = self.jsonData["atoms"][0]
             self._storables = atoms["storables"]
 
